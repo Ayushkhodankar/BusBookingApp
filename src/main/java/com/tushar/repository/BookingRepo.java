@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.tushar.Model.Booking;
+//import com.tushar.Model.Booking.SeatDetail;
+import com.tushar.Model.Seat;
 import com.tushar.enumClasses.BookingStatuses;
 import com.tushar.enumClasses.IsActive;
 import com.tushar.enumClasses.YesNoPending;
@@ -26,5 +28,6 @@ public interface BookingRepo extends JpaRepository<Booking, Integer>{
 	//Booking findByID(String id);
 	
 	List<Booking> findAllByOrderByIdDesc();
+	List<Seat> findByCustomerId(String customerId);
 
 }

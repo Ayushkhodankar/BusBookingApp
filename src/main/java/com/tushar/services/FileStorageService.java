@@ -57,7 +57,6 @@ public class FileStorageService {
         }
         
          fileName = fileName + fileExtension;//modify the file name
-         //fileName=originalFileName;//for original name of file
          System.out.println("fileName >"+fileName);
 
         try {

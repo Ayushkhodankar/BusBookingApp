@@ -1,13 +1,21 @@
 package com.tushar.Model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+
+import org.springframework.http.ResponseEntity;
 
 import com.tushar.enumClasses.IsActive;
 import com.tushar.enumClasses.BookingStatuses;
@@ -60,6 +68,9 @@ public class Booking {
 	private String pendingAmount;
 	
 	private String bookingId;
+	 @ElementCollection
+	 @CollectionTable(name = "seat_details", joinColumns =  @JoinColumn(name="id"))
+	private List<SeatDetail> seatDetails;
 	
 	@Enumerated(EnumType.STRING)
 	private IsActive isFullPaymentPaid= IsActive.N;//Y,N
@@ -78,6 +89,9 @@ public class Booking {
 	private Date updateAt;
 	private String createdBy;
 	private String updatedBy;
+	
+	private String paymentType;
+	
 	
 	public int getId() {
 		return id;
@@ -452,7 +466,77 @@ public class Booking {
 				+ ", bookingStatus=" + bookingStatus + ", photo=" + photo + ", isActive=" + isActive + ", createAt="
 				+ createAt + ", updateAt=" + updateAt + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + "]";
 	}
+	public String getPaymentType() {
+		return paymentType;
+	}
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
+	}
 
+	
+	public List<SeatDetail> getSeatDetails() {
+		return seatDetails;
+	}
+	public void setSeatDetails(List<SeatDetail> seatDetails) {
+		this.seatDetails = seatDetails;
+	}
+
+	@Embeddable
+	public static class SeatDetail {
+		private String seatNumber;
+	    
+		private String passengerName;
+	    private String passengerLastName;
+	    private String passengerEmail;
+	    private String passengerMob;
+	    private String passengerGender;
+	    private String passengerIdType;
+	   
+	    public String getPassengerIdType() {
+			return passengerIdType;
+		}
+		public void setPassengerIdType(String passengerIdType) {
+			this.passengerIdType = passengerIdType;
+		}
+		public String getSeatNumber() {
+			return seatNumber;
+		}
+		public void setSeatNumber(String seatNumber) {
+			this.seatNumber = seatNumber;
+		}
+		public String getPassengerName() {
+			return passengerName;
+		}
+		public void setPassengerName(String passengerName) {
+			this.passengerName = passengerName;
+		}
+		public String getPassengerLastName() {
+			return passengerLastName;
+		}
+		public void setPassengerLastName(String passengerLastName) {
+			this.passengerLastName = passengerLastName;
+		}
+		public String getPassengerEmail() {
+			return passengerEmail;
+		}
+		public void setPassengerEmail(String passengerEmail) {
+			this.passengerEmail = passengerEmail;
+		}
+		public String getPassengerMob() {
+			return passengerMob;
+		}
+		public void setPassengerMob(String passengerMob) {
+			this.passengerMob = passengerMob;
+		}
+		public String getPassengerGender() {
+			return passengerGender;
+		}
+		public void setPassengerGender(String passengerGender) {
+			this.passengerGender = passengerGender;
+		}
+
+        // getters and setters
+    }
 
 	
 }

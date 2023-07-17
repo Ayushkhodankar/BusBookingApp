@@ -7,6 +7,7 @@ import com.tushar.repository.BusRepo;
 import com.tushar.repository.CustomersRepo;
 import com.tushar.repository.OneWayTripRepo;
 import com.tushar.repository.RoundTripRepo;
+import com.tushar.repository.SeatRepository;
 import com.tushar.repository.UsersRepo;
 import com.tushar.repository.VenderBusRepo;
 import com.tushar.repository.VenderRepo;
@@ -73,4 +74,6 @@ public class BaseControler {
 	@Autowired 
 	OneWayTripRepo oneWayTripRepo;
 	
+	@Autowired
+	SeatRepository seatRepository;
 }

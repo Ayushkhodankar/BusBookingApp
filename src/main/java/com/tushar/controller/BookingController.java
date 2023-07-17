@@ -2,6 +2,7 @@ package com.tushar.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -28,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.tushar.dto.Response;
 import com.tushar.Model.Booking;
 import com.tushar.Model.Buses;
+import com.tushar.Model.Seat;
+import com.tushar.Model.Users;
 import com.tushar.enumClasses.BookingStatuses;
 import com.tushar.enumClasses.IsActive;
 import com.tushar.enumClasses.YesNoPending;
@@ -319,11 +322,11 @@ public class BookingController extends BaseControler {
 	/*Bus Rent APIs Starts*/
 	
 	//Adding Pickup and drop location
-	  @PutMapping("/{id}/locations")
+	  @PutMapping("/{customerId}/locations")
 		public ResponseEntity<Map> updatePickupAndDropLocation(@RequestParam String pickUpPlace,
-				@RequestParam String dropPlace, @PathVariable String id) {
+				@RequestParam String dropPlace, @PathVariable String customerId) {
 
-			Booking booking2 = bookingServices.getBooking(Integer.parseInt(id));
+			Booking booking2 = bookingServices.getBooking(Integer.parseInt(customerId));
 
 			booking2.setPickUpPlace(pickUpPlace);
 			booking2.setDropPlace(dropPlace);
@@ -336,4 +339,55 @@ public class BookingController extends BaseControler {
 			return new ResponseEntity<Map>(m, HttpStatus.OK);
 		}
 	
+	  //adding booking for the seats
+	  
+	  @PostMapping("/addSeatBooking")
+	  public ResponseEntity<Map> addSeatBooking(@RequestBody Booking booking){
+		  	Map m = new HashMap();
+		  	
+		    try {
+		    	bookingServices.bookSeats(booking.getCustomerId(),booking.getSeatDetails());
+		    	m.put("status", true);
+				m.put("message", "Seat Added");
+				return ResponseEntity.ok(m);
+	        } catch (Exception e) {
+	        	m.put("status", false);
+				m.put("message", "Exceptional error");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(m);
+				}
+			
+			
+	  }
+	  
+	  //update payment type after seat booking
+	  @PutMapping("/{customerId}/updatePaymentType")
+		public ResponseEntity<Map> updatePaymentType(@RequestParam String paymentType, @PathVariable String customerId) {
+
+			Booking booking2 = bookingServices.getBooking(Integer.parseInt(customerId));
+
+			booking2.setPaymentType(paymentType);
+			booking2.setUpdateAt(new Date());
+			
+			Map m = new HashMap();
+			m.put("status", true);
+			m.put("message", "Update Sucess");
+			return new ResponseEntity<Map>(m, HttpStatus.OK);
+		}
+	 
+	 //retrieve passenger details after filling up in the next page 
+	  @GetMapping("/{customerId}/retrieveSeatsDetailsByUserId")
+		@ResponseBody
+		public Response retrieveSeatsDetailsByUserId(@PathVariable String customerId, @RequestBody Booking booking) {
+			Response response = new Response();
+			response.setStatus("not successfull");
+			response.setMessage("data not found");
+			List<Seat> seat= seatRepository.findByCustomerId(customerId);
+			if (seat != null) {
+				response.setData(seat);
+				response.setStatus("success");
+				response.setMessage("data retrieved");
+			}
+			return response;
+		}
+	  
 }

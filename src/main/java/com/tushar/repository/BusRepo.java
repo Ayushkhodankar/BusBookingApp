@@ -17,4 +17,11 @@ public interface BusRepo extends JpaRepository<Buses, Integer>{
 	List<Buses> findByType(String type);
 
 	List<Buses> findByDestinationStartAndDestinationEnd(String destinationStart, String destinationEnd);
+
+	List<Buses> findByTypeAndBusName(String type, String busName);
+
+	List<Buses> findByTypeAndBusNameAndDate(String type, String busName, String date);
+
+	List<Buses> findByTypeAndBusNameAndDateAndDestinationStartAndDestinationEnd(String type, String busName,
+			String date, String destinationStart, String destinationEnd);
 }

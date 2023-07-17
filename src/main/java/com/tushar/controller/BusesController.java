@@ -164,16 +164,16 @@ public class BusesController extends BaseControler {
 		}
 	}
 
-	/* Bus Rent Apis start  */
-	
-	//Retrive total Bus list
+	/* Bus Rent Apis start */
+
+	// Retrive total Bus list
 	@GetMapping("/retrieveTotalList")
 	@ResponseBody
 	public Response retrieveTotalList(@RequestBody Buses buses) {
 		Response response = new Response();
 		response.setStatus("not successfull");
 		response.setMessage("data not found");
-		List<Buses> buses2= busRepo.findAll();
+		List<Buses> buses2 = busRepo.findAll();
 		if (buses2 != null) {
 			response.setData(buses2);
 			response.setStatus("success");
@@ -181,15 +181,15 @@ public class BusesController extends BaseControler {
 		}
 		return response;
 	}
-	
-	//Retrieve Bus List By  Date
+
+	// Retrieve Bus List By Date
 	@GetMapping("/retrieveListByDate")
 	@ResponseBody
 	public Response retrieveListByDate(@RequestBody Buses buses) {
 		Response response = new Response();
 		response.setStatus("not successfull");
 		response.setMessage("data not found");
-		List<Buses> buses2= busRepo.findByDate(buses.getDate());
+		List<Buses> buses2 = busRepo.findByDate(buses.getDate());
 		if (buses2 != null) {
 			response.setData(buses2);
 			response.setStatus("success");
@@ -197,15 +197,15 @@ public class BusesController extends BaseControler {
 		}
 		return response;
 	}
-	
-	//Retrieve Bus List By  Bus NAme
+
+	// Retrieve Bus List By Bus Name
 	@GetMapping("/retrieveListByBusName")
 	@ResponseBody
 	public Response retrieveListByBusName(@RequestBody Buses buses) {
 		Response response = new Response();
 		response.setStatus("not successfull");
 		response.setMessage("data not found");
-		Buses buses2= busRepo.findByBusName(buses.getBusName());
+		Buses buses2 = busRepo.findByBusName(buses.getBusName());
 		if (buses2 != null) {
 			response.setData(buses2);
 			response.setStatus("success");
@@ -214,14 +214,14 @@ public class BusesController extends BaseControler {
 		return response;
 	}
 
-	//Retrieve Bus List By  Bus Type
+	// Retrieve Bus List By Bus Type
 	@GetMapping("/retrieveListByType")
 	@ResponseBody
 	public Response retrieveListByType(@RequestBody Buses buses) {
 		Response response = new Response();
 		response.setStatus("not successfull");
 		response.setMessage("data not found");
-		List<Buses> buses2= busRepo.findByType(buses.getType());
+		List<Buses> buses2 = busRepo.findByType(buses.getType());
 		if (buses2 != null) {
 			response.setData(buses2);
 			response.setStatus("success");
@@ -230,14 +230,15 @@ public class BusesController extends BaseControler {
 		return response;
 	}
 
-	//Retrieve List By Destination Start And Destination End
+	// Retrieve List By Destination Start And Destination End
 	@GetMapping("/retrieveListByDestinationStartAndDestinationEnd")
 	@ResponseBody
 	public Response retrieveListByDestinationStartAndDestinationEnd(@RequestBody Buses buses) {
 		Response response = new Response();
 		response.setStatus("not successfull");
 		response.setMessage("data not found");
-		List<Buses> buses2= busServices.findByDestinationStartAndDestinationEnd(buses.getDestinationStart(),buses.getDestinationEnd());
+		List<Buses> buses2 = busServices.findByDestinationStartAndDestinationEnd(buses.getDestinationStart(),
+				buses.getDestinationEnd());
 		if (buses2 != null) {
 			response.setData(buses2);
 			response.setStatus("success");
@@ -246,4 +247,51 @@ public class BusesController extends BaseControler {
 		return response;
 	}
 
+	// retrieve by Bus type ANd Bus Name
+	@GetMapping("/retrieveListByTypeAndBusName")
+	@ResponseBody
+	public Response retrieveListByTypeAndBusName(@RequestBody Buses buses) {
+		Response response = new Response();
+		response.setStatus("not successfull");
+		response.setMessage("data not found");
+		List<Buses> buses2 = busRepo.findByTypeAndBusName(buses.getType(), buses.getBusName());
+		if (buses2 != null) {
+			response.setData(buses2);
+			response.setStatus("success");
+			response.setMessage("data retrieved");
+		}
+		return response;
+	}
+
+	// retrieve bus list by bus type, name and date
+	@GetMapping("/retrieveListByTypeAndBusNameAndDate")
+	@ResponseBody
+	public Response retrieveListByTypeAndBusNameAndDate(@RequestBody Buses buses) {
+		Response response = new Response();
+		response.setStatus("not successfull");
+		response.setMessage("data not found");
+		List<Buses> buses2 = busRepo.findByTypeAndBusNameAndDate(buses.getType(), buses.getBusName(), buses.getDate());
+		if (buses2 != null) {
+			response.setData(buses2);
+			response.setStatus("success");
+			response.setMessage("data retrieved");
+		}
+		return response;
+	}
+
+	@GetMapping("/retrieveListByTypeAndBusNameAndDateAndDestinationStartAndDestinationEnd")
+	@ResponseBody
+	public Response retrieveListByTypeAndBusNameAndDateAndDestinationStartAndDestinationEnd(@RequestBody Buses buses) {
+		Response response = new Response();
+		response.setStatus("not successfull");
+		response.setMessage("data not found");
+		List<Buses> buses2 = busRepo.findByTypeAndBusNameAndDateAndDestinationStartAndDestinationEnd(buses.getType(),
+				buses.getBusName(), buses.getDate(), buses.getDestinationStart(), buses.getDestinationEnd());
+		if (buses2 != null) {
+			response.setData(buses2);
+			response.setStatus("success");
+			response.setMessage("data retrieved");
+		}
+		return response;
+	}
 }
